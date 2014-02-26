@@ -16,6 +16,15 @@ public class MaltRecordDaoImpl implements MaltRecordDao {
     @Autowired
     private SessionFactory sessionFactory;
 
+    public MaltRecordDaoImpl(SessionFactory sf)
+    {
+        sessionFactory = sf;
+    }
+    public MaltRecordDaoImpl()
+    {
+
+    }
+
     @Override
     public int addMaltRecord(MaltRecordEntity maltRecordEntity) {
         return (Integer)sessionFactory.getCurrentSession().save(maltRecordEntity);
@@ -41,5 +50,13 @@ public class MaltRecordDaoImpl implements MaltRecordDao {
     @Override
     public List<MaltRecordEntity> getAll() {
         return sessionFactory.getCurrentSession().createQuery("from MaltRecordEntity ").list();
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
     }
 }

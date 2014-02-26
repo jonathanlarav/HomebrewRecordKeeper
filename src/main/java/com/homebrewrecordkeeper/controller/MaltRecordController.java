@@ -1,7 +1,7 @@
 package com.homebrewrecordkeeper.controller;
 
 import com.homebrewrecordkeeper.entity.MaltRecordEntity;
-import com.homebrewrecordkeeper.service.MaltRecordManager;
+import com.homebrewrecordkeeper.integration.MaltRecordManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

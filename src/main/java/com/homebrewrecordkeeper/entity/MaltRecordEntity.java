@@ -10,7 +10,7 @@ public class MaltRecordEntity {
     @SequenceGenerator(sequenceName = "maltrecord_id_seq", name = "ID_seq")
     @Column(name = "id", unique = true, nullable = false)
     @Id
-    private String Id;
+    private int Id;
     @Column(name="name", unique = false, nullable = false)
     private String Name;
     @Column(name="amount", unique = false, nullable = false)
@@ -20,9 +20,9 @@ public class MaltRecordEntity {
     @Column(name="type", unique = false, nullable = false)
     private String Type;
 
-    public MaltRecordEntity(String id, String name, int amount, String unit, String type)
+    public MaltRecordEntity(String name, int amount, String unit, String type)
     {
-        setId(id);
+        //setId(id);
         setName(name);
         setAmount(amount);
         setUnit(unit);
@@ -32,11 +32,11 @@ public class MaltRecordEntity {
     public MaltRecordEntity() {
     }
 
-    public String getId() {
+    public int getId() {
         return Id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.Id = id;
     }
 

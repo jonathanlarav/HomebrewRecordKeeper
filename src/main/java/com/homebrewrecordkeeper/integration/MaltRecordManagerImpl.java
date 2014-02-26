@@ -1,4 +1,4 @@
-package com.homebrewrecordkeeper.service;
+package com.homebrewrecordkeeper.integration;
 
 import com.homebrewrecordkeeper.dao.MaltRecordDao;
 import com.homebrewrecordkeeper.entity.MaltRecordEntity;
@@ -12,6 +12,15 @@ import java.util.List;
 public class MaltRecordManagerImpl implements MaltRecordManager {
     @Autowired
     private MaltRecordDao maltRecordDao;
+
+    public MaltRecordManagerImpl(MaltRecordDao mrd)
+    {
+        maltRecordDao = mrd;
+    }
+    public MaltRecordManagerImpl()
+    {
+
+    }
 
     @Override
     @Transactional
@@ -45,5 +54,8 @@ public class MaltRecordManagerImpl implements MaltRecordManager {
 
     public void setMaltRecordDao(MaltRecordDao maltRecordDao) {
         this.maltRecordDao = maltRecordDao;
+    }
+    public MaltRecordDao getMaltRecordDao() {
+        return this.maltRecordDao;
     }
 }
