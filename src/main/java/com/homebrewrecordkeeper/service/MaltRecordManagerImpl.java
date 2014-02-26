@@ -1,4 +1,4 @@
-package com.homebrewrecordkeeper.integration;
+package com.homebrewrecordkeeper.service;
 
 import com.homebrewrecordkeeper.dao.MaltRecordDao;
 import com.homebrewrecordkeeper.entity.MaltRecordEntity;
@@ -13,31 +13,30 @@ public class MaltRecordManagerImpl implements MaltRecordManager {
     @Autowired
     private MaltRecordDao maltRecordDao;
 
-    public MaltRecordManagerImpl(MaltRecordDao mrd)
-    {
+    public MaltRecordManagerImpl(MaltRecordDao mrd) {
         maltRecordDao = mrd;
     }
-    public MaltRecordManagerImpl()
-    {
+
+    public MaltRecordManagerImpl() {
 
     }
 
     @Override
     @Transactional
-    public int addMaltRecord(MaltRecordEntity maltRecordEntity) {
+    public MaltRecordEntity addMaltRecord(MaltRecordEntity maltRecordEntity) {
         return maltRecordDao.addMaltRecord(maltRecordEntity);
     }
 
     @Override
     @Transactional
-    public void deleteMaltRecord(String id) {
-        maltRecordDao.deleteMaltRecord(id);
+    public boolean deleteMaltRecord(String id) {
+        return maltRecordDao.deleteMaltRecord(id);
     }
 
     @Override
     @Transactional
-    public void updateMaltRecord(String id, MaltRecordEntity maltRecordEntity) {
-        maltRecordDao.updateMaltRecord(id,maltRecordEntity);
+    public MaltRecordEntity updateMaltRecord(String id, MaltRecordEntity maltRecordEntity) {
+        return maltRecordDao.updateMaltRecord(id, maltRecordEntity);
     }
 
     @Override
@@ -55,6 +54,7 @@ public class MaltRecordManagerImpl implements MaltRecordManager {
     public void setMaltRecordDao(MaltRecordDao maltRecordDao) {
         this.maltRecordDao = maltRecordDao;
     }
+
     public MaltRecordDao getMaltRecordDao() {
         return this.maltRecordDao;
     }

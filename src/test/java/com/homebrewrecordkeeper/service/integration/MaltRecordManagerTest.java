@@ -1,7 +1,7 @@
-package com.homebrewrecordkeeper.integration;
+package com.homebrewrecordkeeper.service.integration;
 
-import com.homebrewrecordkeeper.dao.MaltRecordDao;
 import com.homebrewrecordkeeper.entity.MaltRecordEntity;
+import com.homebrewrecordkeeper.service.MaltRecordManager;
 import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,22 +19,23 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:homebrewRecordKeeper-servlet.xml")
 @TransactionConfiguration(transactionManager="transactionManager")
-public class MaltRecordDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class MaltRecordManagerTest extends AbstractTransactionalJUnit4SpringContextTests {
     @Autowired
-    private MaltRecordDao maltRecordDao;
+    private MaltRecordManager maltRecordManager;
 
     private SessionFactory sessionFactory;
 
     @Before
     public void setupTest()
     {
-        sessionFactory = maltRecordDao.getSessionFactory();
+        sessionFactory = maltRecordManager.getMaltRecordDao().getSessionFactory();
     }
     @Test
+    @SuppressWarnings("unchecked")
     public void addMaltRecordTest()
     {
         MaltRecordEntity newMaltRecordEntity = new MaltRecordEntity("test1",2,"test1","test1");
-        maltRecordDao.addMaltRecord(newMaltRecordEntity);
+        maltRecordManager.addMaltRecord(newMaltRecordEntity);
         List<MaltRecordEntity> maltRecordEntityList = sessionFactory.getCurrentSession().createQuery("from MaltRecordEntity").list();
         assertTrue(maltRecordEntityList.contains(newMaltRecordEntity));
     }

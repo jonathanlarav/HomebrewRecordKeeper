@@ -6,10 +6,10 @@ import javax.persistence.*;
 @Table(name="maltrecord")
 public class MaltRecordEntity {
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ID_seq")
-    @SequenceGenerator(sequenceName = "maltrecord_id_seq", name = "ID_seq")
-    @Column(name = "id", unique = true, nullable = false)
     @Id
+    @SequenceGenerator(name = "ID_seq", sequenceName = "maltrecord_id_seq",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ID_seq")
+    @Column(name = "id", nullable = false, unique = true, insertable = false)
     private int Id;
     @Column(name="name", unique = false, nullable = false)
     private String Name;
