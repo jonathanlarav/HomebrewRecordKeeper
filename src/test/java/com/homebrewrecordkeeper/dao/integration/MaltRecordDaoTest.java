@@ -17,6 +17,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -58,5 +59,19 @@ public class MaltRecordDaoTest extends AbstractTransactionalJUnit4SpringContextT
 
         assertEquals("New Malt",modifiedMaltRecord.getName());
         assertEquals("Grains",modifiedMaltRecord.getType());
+    }
+
+    @Test
+    public void deleteMaltRecordTest()
+    {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(MaltRecordEntity.class);
+        criteria.add(Restrictions.eq("Id", 1));
+        MaltRecordEntity existingMaltRecord = (MaltRecordEntity) criteria.uniqueResult();
+
+        maltRecordDao.deleteMaltRecord(existingMaltRecord);
+
+        List<MaltRecordEntity> maltRecordEntityList = sessionFactory.getCurrentSession().createQuery("from MaltRecordEntity").list();
+
+        assertFalse(maltRecordEntityList.contains(existingMaltRecord));
     }
 }

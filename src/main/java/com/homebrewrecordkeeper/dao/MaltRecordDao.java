@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface MaltRecordDao {
     MaltRecordEntity addMaltRecord(MaltRecordEntity maltRecordEntity);
-    boolean deleteMaltRecord(String id);
+    boolean deleteMaltRecord(MaltRecordEntity maltRecordEntity);
     MaltRecordEntity updateMaltRecord(MaltRecordEntity maltRecordEntity);
     MaltRecordEntity getMaltRecordById(String id);
     List<MaltRecordEntity> getAll();

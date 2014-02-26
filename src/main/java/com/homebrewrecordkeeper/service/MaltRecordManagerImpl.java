@@ -29,8 +29,8 @@ public class MaltRecordManagerImpl implements MaltRecordManager {
 
     @Override
     @Transactional
-    public boolean deleteMaltRecord(String id) {
-        return maltRecordDao.deleteMaltRecord(id);
+    public boolean deleteMaltRecord(MaltRecordEntity maltRecordEntity) {
+        return maltRecordDao.deleteMaltRecord(maltRecordEntity);
     }
 
     @Override

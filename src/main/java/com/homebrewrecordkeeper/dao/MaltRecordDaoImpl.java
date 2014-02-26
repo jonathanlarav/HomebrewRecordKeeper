@@ -30,9 +30,9 @@ public class MaltRecordDaoImpl implements MaltRecordDao {
     }
 
     @Override
-    public boolean deleteMaltRecord(String id) {
+    public boolean deleteMaltRecord(MaltRecordEntity maltRecordEntity) {
         try {
-            sessionFactory.getCurrentSession().delete(getMaltRecordById(id));
+            sessionFactory.getCurrentSession().delete(maltRecordEntity);
             return true;
         } catch (Exception e) {
             return false;
