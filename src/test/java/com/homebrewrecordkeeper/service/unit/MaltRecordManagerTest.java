@@ -28,4 +28,9 @@ public class MaltRecordManagerTest {
 
         assertEquals(100,insertedMaltRecordEntity.getId());
     }
+    @Test
+    public void updateMaltRecordTest()
+    {
+
+    }
 }

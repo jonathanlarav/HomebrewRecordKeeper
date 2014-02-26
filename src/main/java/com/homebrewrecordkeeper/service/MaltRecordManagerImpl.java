@@ -35,8 +35,8 @@ public class MaltRecordManagerImpl implements MaltRecordManager {
 
     @Override
     @Transactional
-    public MaltRecordEntity updateMaltRecord(String id, MaltRecordEntity maltRecordEntity) {
-        return maltRecordDao.updateMaltRecord(id, maltRecordEntity);
+    public MaltRecordEntity updateMaltRecord(MaltRecordEntity maltRecordEntity) {
+        return maltRecordDao.updateMaltRecord(maltRecordEntity);
     }
 
     @Override

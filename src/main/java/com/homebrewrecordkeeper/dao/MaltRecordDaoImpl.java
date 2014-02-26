@@ -6,7 +6,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
@@ -41,8 +40,9 @@ public class MaltRecordDaoImpl implements MaltRecordDao {
     }
 
     @Override
-    public MaltRecordEntity updateMaltRecord(String id, MaltRecordEntity maltRecordEntity) {
-        throw new NotImplementedException();
+    public MaltRecordEntity updateMaltRecord(MaltRecordEntity maltRecordEntity) {
+        sessionFactory.getCurrentSession().update(maltRecordEntity);
+        return maltRecordEntity;
     }
 
     @Override
@@ -54,6 +54,7 @@ public class MaltRecordDaoImpl implements MaltRecordDao {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<MaltRecordEntity> getAll() {
         return sessionFactory.getCurrentSession().createQuery("from MaltRecordEntity ").list();
     }
