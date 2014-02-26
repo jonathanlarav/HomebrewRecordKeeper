@@ -8,8 +8,8 @@ public class MaltRecordEntity {
 
     @Id
     @SequenceGenerator(name = "ID_seq", sequenceName = "maltrecord_id_seq",allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ID_seq")
-    @Column(name = "id", nullable = false, unique = true, insertable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "ID_seq")
+    @Column(name = "id", unique = true, insertable = false, updatable = false)
     private int Id;
     @Column(name="name", unique = false, nullable = false)
     private String Name;

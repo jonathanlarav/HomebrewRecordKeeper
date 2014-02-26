@@ -38,11 +38,9 @@ public class MaltRecordDaoTest extends AbstractTransactionalJUnit4SpringContextT
     @Test
     public void addMaltRecordTest()
     {
-        MaltRecordEntity newMaltRecordEntity = new MaltRecordEntity("test1",2,"test1","test1");
-        maltRecordDao.addMaltRecord(newMaltRecordEntity);
-        List<MaltRecordEntity> maltRecordEntityList = sessionFactory.getCurrentSession().createQuery("from MaltRecordEntity").list();
-        assertTrue(maltRecordEntityList.contains(newMaltRecordEntity));
+        createMaltRecord();
     }
+
     @Test
     public void updateMaltRecordTest()
     {
@@ -64,14 +62,27 @@ public class MaltRecordDaoTest extends AbstractTransactionalJUnit4SpringContextT
     @Test
     public void deleteMaltRecordTest()
     {
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(MaltRecordEntity.class);
-        criteria.add(Restrictions.eq("Id", 1));
-        MaltRecordEntity existingMaltRecord = (MaltRecordEntity) criteria.uniqueResult();
+        MaltRecordEntity existingMaltRecord = createMaltRecord();
 
         maltRecordDao.deleteMaltRecord(existingMaltRecord);
 
         List<MaltRecordEntity> maltRecordEntityList = sessionFactory.getCurrentSession().createQuery("from MaltRecordEntity").list();
 
         assertFalse(maltRecordEntityList.contains(existingMaltRecord));
+    }
+    @Test
+    public void getAllMaltRecordsTest()
+    {
+        List<MaltRecordEntity> maltRecordEntityList = maltRecordDao.getAll();
+        assertEquals(2,maltRecordEntityList.size());
+        assertEquals("Muntons amber malt extract",maltRecordEntityList.get(0));
+    }
+    private MaltRecordEntity createMaltRecord()
+    {
+        MaltRecordEntity newMaltRecordEntity = new MaltRecordEntity("test1",2,"test1","test1");
+        maltRecordDao.addMaltRecord(newMaltRecordEntity);
+        List<MaltRecordEntity> maltRecordEntityList = sessionFactory.getCurrentSession().createQuery("from MaltRecordEntity").list();
+        assertTrue(maltRecordEntityList.contains(newMaltRecordEntity));
+        return newMaltRecordEntity;
     }
 }
