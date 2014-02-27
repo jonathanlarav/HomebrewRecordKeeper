@@ -7,9 +7,9 @@ import org.hibernate.SessionFactory;
 import java.util.List;
 
 public interface MaltRecordDao {
-    int addMaltRecord(MaltRecordEntity maltRecordEntity);
-    void deleteMaltRecord(String id);
-    void updateMaltRecord(String id, MaltRecordEntity maltRecordEntity);
+    MaltRecordEntity addMaltRecord(MaltRecordEntity maltRecordEntity);
+    boolean deleteMaltRecord(MaltRecordEntity maltRecordEntity);
+    MaltRecordEntity updateMaltRecord(MaltRecordEntity maltRecordEntity);
     MaltRecordEntity getMaltRecordById(String id);
     List<MaltRecordEntity> getAll();
     SessionFactory getSessionFactory();

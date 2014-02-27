@@ -1,0 +1,2 @@
+INSERT INTO MaltRecord(name,amount,unit,type) VALUES ('Muntons amber malt extract',2,'lbs','dry');
+INSERT INTO MaltRecord(name,amount,unit,type) VALUES ('Briess golden light malt extract',4,'lbs','liquid');
