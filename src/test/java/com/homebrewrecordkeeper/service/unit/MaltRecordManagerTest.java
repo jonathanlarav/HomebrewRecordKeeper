@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.easymock.EasyMock.*;
 
 public class MaltRecordManagerTest {
@@ -27,10 +27,5 @@ public class MaltRecordManagerTest {
         MaltRecordEntity insertedMaltRecordEntity = maltRecordManager.addMaltRecord(maltRecordEntity);
 
         assertEquals(100,insertedMaltRecordEntity.getId());
-    }
-    @Test
-    public void updateMaltRecordTest()
-    {
-
     }
 }

@@ -12,5 +12,6 @@ public interface MaltRecordDao {
     MaltRecordEntity updateMaltRecord(MaltRecordEntity maltRecordEntity);
     MaltRecordEntity getMaltRecordById(String id);
     List<MaltRecordEntity> getAll();
+    void setSessionFactory(SessionFactory sessionFactory);
     SessionFactory getSessionFactory();
 }

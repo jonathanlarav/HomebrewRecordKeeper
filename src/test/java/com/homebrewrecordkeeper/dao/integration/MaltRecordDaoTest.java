@@ -16,9 +16,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:homebrewRecordKeeper-servlet.xml")
@@ -51,37 +49,44 @@ public class MaltRecordDaoTest extends AbstractTransactionalJUnit4SpringContextT
         existingMaltRecord.setName("New Malt");
         existingMaltRecord.setType("Grains");
 
-        maltRecordDao.updateMaltRecord(existingMaltRecord);
+        MaltRecordEntity returnedMaltRecord = maltRecordDao.updateMaltRecord(existingMaltRecord);
 
         MaltRecordEntity modifiedMaltRecord = (MaltRecordEntity) criteria.uniqueResult();
 
+        assertEquals("New Malt",returnedMaltRecord.getName());
+        assertEquals("Grains",returnedMaltRecord.getType());
         assertEquals("New Malt",modifiedMaltRecord.getName());
         assertEquals("Grains",modifiedMaltRecord.getType());
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void deleteMaltRecordTest()
     {
         MaltRecordEntity existingMaltRecord = createMaltRecord();
 
-        maltRecordDao.deleteMaltRecord(existingMaltRecord);
+        boolean result = maltRecordDao.deleteMaltRecord(existingMaltRecord);
 
         List<MaltRecordEntity> maltRecordEntityList = sessionFactory.getCurrentSession().createQuery("from MaltRecordEntity").list();
 
+        assertTrue(result);
         assertFalse(maltRecordEntityList.contains(existingMaltRecord));
     }
     @Test
+    @SuppressWarnings("unchecked")
     public void getAllMaltRecordsTest()
     {
         List<MaltRecordEntity> maltRecordEntityList = maltRecordDao.getAll();
         assertEquals(2,maltRecordEntityList.size());
         assertEquals("Muntons amber malt extract",maltRecordEntityList.get(0).getName());
     }
+    @SuppressWarnings("unchecked")
     private MaltRecordEntity createMaltRecord()
     {
         MaltRecordEntity newMaltRecordEntity = new MaltRecordEntity("test1",2,"test1","test1");
-        maltRecordDao.addMaltRecord(newMaltRecordEntity);
+        MaltRecordEntity createdMaltRecord = maltRecordDao.addMaltRecord(newMaltRecordEntity);
         List<MaltRecordEntity> maltRecordEntityList = sessionFactory.getCurrentSession().createQuery("from MaltRecordEntity").list();
+        assertNotNull(createdMaltRecord.getId());
         assertTrue(maltRecordEntityList.contains(newMaltRecordEntity));
         return newMaltRecordEntity;
     }

@@ -3,32 +3,35 @@ package com.homebrewrecordkeeper.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="maltrecord")
-public class MaltRecordEntity {
-
+@Table(name="hoprecord")
+public class HopRecordEntity {
     @Id
-    @SequenceGenerator(name = "ID_seq", sequenceName = "maltrecord_id_seq",allocationSize = 1)
+    @SequenceGenerator(name = "ID_seq", sequenceName = "hoprecord_id_seq",allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "ID_seq")
     @Column(name = "id", unique = true, insertable = false, updatable = false)
-    private int Id;
-    @Column(name="name", nullable = false)
-    private String Name;
+    private Integer Id;
     @Column(name="amount", nullable = false)
     private double Amount;
     @Column(name="unit", nullable = false)
     private String Unit;
+    @Column(name="timeInMinutes", nullable = false)
+    private int TimeInMinutes;
     @Column(name="type", nullable = false)
     private String Type;
+    @Column(name="alphaAcid", nullable = true)
+    private double AlphaAcid;
 
-    public MaltRecordEntity(String name, double amount, String unit, String type)
+    public HopRecordEntity(double amount, String unit, int timeInMinutes, String type, double alphaAcid)
     {
-        setName(name);
         setAmount(amount);
         setUnit(unit);
+        setTimeInMinutes(timeInMinutes);
         setType(type);
+        setAlphaAcid(alphaAcid);
     }
+    public HopRecordEntity()
+    {
 
-    public MaltRecordEntity() {
     }
 
     public int getId() {
@@ -36,15 +39,7 @@ public class MaltRecordEntity {
     }
 
     public void setId(int id) {
-        this.Id = id;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String name) {
-        Name = name;
+        Id = id;
     }
 
     public double getAmount() {
@@ -55,6 +50,7 @@ public class MaltRecordEntity {
         Amount = amount;
     }
 
+
     public String getUnit() {
         return Unit;
     }
@@ -63,11 +59,27 @@ public class MaltRecordEntity {
         Unit = unit;
     }
 
+    public int getTimeInMinutes() {
+        return TimeInMinutes;
+    }
+
+    public void setTimeInMinutes(int timeInMinutes) {
+        TimeInMinutes = timeInMinutes;
+    }
+
     public String getType() {
         return Type;
     }
 
     public void setType(String type) {
         Type = type;
+    }
+
+    public double getAlphaAcid() {
+        return AlphaAcid;
+    }
+
+    public void setAlphaAcid(double alphaAcid) {
+        AlphaAcid = alphaAcid;
     }
 }

@@ -16,9 +16,9 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:homebrewRecordKeeper-servlet.xml")
@@ -60,6 +60,7 @@ public class MaltRecordManagerTest extends AbstractTransactionalJUnit4SpringCont
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void deleteMaltRecordTest()
     {
         MaltRecordEntity existingMaltRecord = createMaltRecord();
@@ -77,6 +78,7 @@ public class MaltRecordManagerTest extends AbstractTransactionalJUnit4SpringCont
         assertEquals(2,maltRecordEntityList.size());
         assertEquals("Muntons amber malt extract",maltRecordEntityList.get(0).getName());
     }
+    @SuppressWarnings("unchecked")
     private MaltRecordEntity createMaltRecord()
     {
         MaltRecordEntity newMaltRecordEntity = new MaltRecordEntity("test1",2,"test1","test1");
