@@ -75,7 +75,7 @@ public class MaltRecordDaoTest extends AbstractTransactionalJUnit4SpringContextT
     {
         List<MaltRecordEntity> maltRecordEntityList = maltRecordDao.getAll();
         assertEquals(2,maltRecordEntityList.size());
-        assertEquals("Muntons amber malt extract",maltRecordEntityList.get(0));
+        assertEquals("Muntons amber malt extract",maltRecordEntityList.get(0).getName());
     }
     private MaltRecordEntity createMaltRecord()
     {
