@@ -16,9 +16,8 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:homebrewRecordKeeper-servlet.xml")
@@ -51,38 +50,50 @@ public class MaltRecordManagerTest extends AbstractTransactionalJUnit4SpringCont
         existingMaltRecord.setName("New Malt");
         existingMaltRecord.setType("Grains");
 
-        maltRecordManager.updateMaltRecord(existingMaltRecord);
+        MaltRecordEntity returnedMaltRecord = maltRecordManager.updateMaltRecord(existingMaltRecord);
 
         MaltRecordEntity modifiedMaltRecord = (MaltRecordEntity) criteria.uniqueResult();
 
-        assertEquals("New Malt",modifiedMaltRecord.getName());
-        assertEquals("Grains",modifiedMaltRecord.getType());
+        assertThat(returnedMaltRecord.getName(),equalTo("New Malt"));
+        assertThat(returnedMaltRecord.getType(),equalTo("Grains"));
+        assertThat(modifiedMaltRecord.getName(),equalTo("New Malt"));
+        assertThat(modifiedMaltRecord.getType(),equalTo("Grains"));
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void deleteMaltRecordTest()
     {
         MaltRecordEntity existingMaltRecord = createMaltRecord();
 
-        maltRecordManager.deleteMaltRecord(existingMaltRecord);
+        boolean result = maltRecordManager.deleteMaltRecord(existingMaltRecord);
 
         List<MaltRecordEntity> maltRecordEntityList = sessionFactory.getCurrentSession().createQuery("from MaltRecordEntity").list();
 
-        assertFalse(maltRecordEntityList.contains(existingMaltRecord));
+        assertThat(result,equalTo(true));
+        assertThat(maltRecordEntityList,not(hasItem(existingMaltRecord)));
     }
     @Test
     public void getAllMaltRecordsTest()
     {
         List<MaltRecordEntity> maltRecordEntityList = maltRecordManager.getAll();
-        assertEquals(2,maltRecordEntityList.size());
-        assertEquals("Muntons amber malt extract",maltRecordEntityList.get(0).getName());
+        assertThat(maltRecordEntityList.size(),equalTo(2));
+        assertThat(maltRecordEntityList.get(0).getName(),equalTo("Muntons amber malt extract"));
     }
+    @Test
+    public void getMaltRecordByIdTest()
+    {
+        MaltRecordEntity maltRecordEntity = maltRecordManager.getMaltRecordById(1);
+        assertThat(maltRecordEntity.getId(),equalTo(1));
+    }
+    @SuppressWarnings("unchecked")
     private MaltRecordEntity createMaltRecord()
     {
         MaltRecordEntity newMaltRecordEntity = new MaltRecordEntity("test1",2,"test1","test1");
-        maltRecordManager.addMaltRecord(newMaltRecordEntity);
+        MaltRecordEntity createdMaltRecord = maltRecordManager.addMaltRecord(newMaltRecordEntity);
         List<MaltRecordEntity> maltRecordEntityList = sessionFactory.getCurrentSession().createQuery("from MaltRecordEntity").list();
-        assertTrue(maltRecordEntityList.contains(newMaltRecordEntity));
+        assertThat(createdMaltRecord.getId(),not(equalTo(0)));
+        assertThat(maltRecordEntityList,hasItem(newMaltRecordEntity));
         return newMaltRecordEntity;
     }
 }

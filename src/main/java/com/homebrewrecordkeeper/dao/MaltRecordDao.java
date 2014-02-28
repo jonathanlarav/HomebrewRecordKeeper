@@ -10,7 +10,8 @@ public interface MaltRecordDao {
     MaltRecordEntity addMaltRecord(MaltRecordEntity maltRecordEntity);
     boolean deleteMaltRecord(MaltRecordEntity maltRecordEntity);
     MaltRecordEntity updateMaltRecord(MaltRecordEntity maltRecordEntity);
-    MaltRecordEntity getMaltRecordById(String id);
+    MaltRecordEntity getMaltRecordById(int id);
     List<MaltRecordEntity> getAll();
+    void setSessionFactory(SessionFactory sessionFactory);
     SessionFactory getSessionFactory();
 }

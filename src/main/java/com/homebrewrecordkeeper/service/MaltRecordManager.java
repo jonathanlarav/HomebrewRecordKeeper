@@ -9,7 +9,7 @@ public interface MaltRecordManager {
     MaltRecordEntity addMaltRecord(MaltRecordEntity maltRecordEntity);
     boolean deleteMaltRecord(MaltRecordEntity maltRecordEntity);
     MaltRecordEntity updateMaltRecord(MaltRecordEntity maltRecordEntity);
-    MaltRecordEntity getMaltRecordById(String id);
+    MaltRecordEntity getMaltRecordById(int id);
     List<MaltRecordEntity> getAll();
     void setMaltRecordDao(MaltRecordDao maltRecordDao);
     MaltRecordDao getMaltRecordDao();
