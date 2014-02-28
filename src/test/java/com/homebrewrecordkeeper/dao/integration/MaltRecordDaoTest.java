@@ -1,5 +1,6 @@
 package com.homebrewrecordkeeper.dao.integration;
 
+import com.homebrewrecordkeeper.config.ApplicationConfig;
 import com.homebrewrecordkeeper.dao.MaltRecordDao;
 import com.homebrewrecordkeeper.entity.MaltRecordEntity;
 import org.hibernate.Criteria;
@@ -20,7 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:homebrewRecordKeeper-servlet.xml")
+@ContextConfiguration(classes = ApplicationConfig.class)
 @TransactionConfiguration(transactionManager="transactionManager")
 public class MaltRecordDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
     @Autowired

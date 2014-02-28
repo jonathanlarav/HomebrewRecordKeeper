@@ -1,7 +1,6 @@
 package com.homebrewrecordkeeper.dao;
 
 import com.homebrewrecordkeeper.entity.MaltRecordEntity;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
