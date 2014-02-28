@@ -13,11 +13,12 @@ public class MaltRecordManagerImpl implements MaltRecordManager {
     @Autowired
     private MaltRecordDao maltRecordDao;
 
-    public MaltRecordManagerImpl(MaltRecordDao mrd) {
+    public MaltRecordManagerImpl(MaltRecordDao mrd)
+    {
         maltRecordDao = mrd;
     }
-
-    public MaltRecordManagerImpl() {
+    public MaltRecordManagerImpl()
+    {
 
     }
 

@@ -1,5 +1,6 @@
 package com.homebrewrecordkeeper.service.integration;
 
+import com.homebrewrecordkeeper.config.ApplicationConfig;
 import com.homebrewrecordkeeper.entity.MaltRecordEntity;
 import com.homebrewrecordkeeper.service.MaltRecordManager;
 import org.hibernate.Criteria;
@@ -20,7 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:homebrewRecordKeeper-servlet.xml")
+@ContextConfiguration(classes = ApplicationConfig.class)
 @TransactionConfiguration(transactionManager="transactionManager")
 public class MaltRecordManagerTest extends AbstractTransactionalJUnit4SpringContextTests {
     @Autowired
