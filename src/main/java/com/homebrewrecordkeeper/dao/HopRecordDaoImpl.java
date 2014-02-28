@@ -2,7 +2,9 @@ package com.homebrewrecordkeeper.dao;
 
 import com.homebrewrecordkeeper.entity.HopRecordEntity;
 import com.homebrewrecordkeeper.entity.MaltRecordEntity;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -51,5 +53,12 @@ public class HopRecordDaoImpl implements HopRecordDao {
     @Override
     public List<HopRecordEntity> getAll() {
         return sessionFactory.getCurrentSession().createQuery("from HopRecordEntity").list();
+    }
+
+    @Override
+    public HopRecordEntity getHopRecordById(int id) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(HopRecordEntity.class);
+        criteria.add(Restrictions.eq("Id", id));
+        return (HopRecordEntity) criteria.uniqueResult();
     }
 }

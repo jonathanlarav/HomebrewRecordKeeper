@@ -16,7 +16,8 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:homebrewRecordKeeper-servlet.xml")
@@ -53,10 +54,10 @@ public class MaltRecordDaoTest extends AbstractTransactionalJUnit4SpringContextT
 
         MaltRecordEntity modifiedMaltRecord = (MaltRecordEntity) criteria.uniqueResult();
 
-        assertEquals("New Malt",returnedMaltRecord.getName());
-        assertEquals("Grains",returnedMaltRecord.getType());
-        assertEquals("New Malt",modifiedMaltRecord.getName());
-        assertEquals("Grains",modifiedMaltRecord.getType());
+        assertThat(returnedMaltRecord.getName(),equalTo("New Malt"));
+        assertThat(returnedMaltRecord.getType(),equalTo("Grains"));
+        assertThat(modifiedMaltRecord.getName(),equalTo("New Malt"));
+        assertThat(modifiedMaltRecord.getType(),equalTo("Grains"));
     }
 
     @Test
@@ -69,16 +70,22 @@ public class MaltRecordDaoTest extends AbstractTransactionalJUnit4SpringContextT
 
         List<MaltRecordEntity> maltRecordEntityList = sessionFactory.getCurrentSession().createQuery("from MaltRecordEntity").list();
 
-        assertTrue(result);
-        assertFalse(maltRecordEntityList.contains(existingMaltRecord));
+        assertThat(result,equalTo(true));
+        assertThat(maltRecordEntityList,not(hasItem(existingMaltRecord)));
     }
     @Test
     @SuppressWarnings("unchecked")
     public void getAllMaltRecordsTest()
     {
         List<MaltRecordEntity> maltRecordEntityList = maltRecordDao.getAll();
-        assertEquals(2,maltRecordEntityList.size());
-        assertEquals("Muntons amber malt extract",maltRecordEntityList.get(0).getName());
+        assertThat(maltRecordEntityList,hasSize(2));
+        assertThat(maltRecordEntityList.get(0).getName(),equalTo("Muntons amber malt extract"));
+    }
+    @Test
+    public void getMaltRecordByIdTest()
+    {
+        MaltRecordEntity maltRecordEntity = maltRecordDao.getMaltRecordById(1);
+        assertThat(maltRecordEntity.getId(),equalTo(1));
     }
     @SuppressWarnings("unchecked")
     private MaltRecordEntity createMaltRecord()
@@ -86,8 +93,9 @@ public class MaltRecordDaoTest extends AbstractTransactionalJUnit4SpringContextT
         MaltRecordEntity newMaltRecordEntity = new MaltRecordEntity("test1",2,"test1","test1");
         MaltRecordEntity createdMaltRecord = maltRecordDao.addMaltRecord(newMaltRecordEntity);
         List<MaltRecordEntity> maltRecordEntityList = sessionFactory.getCurrentSession().createQuery("from MaltRecordEntity").list();
-        assertNotNull(createdMaltRecord.getId());
-        assertTrue(maltRecordEntityList.contains(newMaltRecordEntity));
+
+        assertThat(createdMaltRecord.getId(),not(equalTo(0)));
+        assertThat(maltRecordEntityList,hasItem(newMaltRecordEntity));
         return newMaltRecordEntity;
     }
 }

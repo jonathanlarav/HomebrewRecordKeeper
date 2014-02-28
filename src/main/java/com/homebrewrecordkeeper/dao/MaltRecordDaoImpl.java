@@ -47,7 +47,7 @@ public class MaltRecordDaoImpl implements MaltRecordDao {
 
     @Override
     @SuppressWarnings("unchecked")
-    public MaltRecordEntity getMaltRecordById(String id) {
+    public MaltRecordEntity getMaltRecordById(int id) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(MaltRecordEntity.class);
         criteria.add(Restrictions.eq("Id", id));
         return (MaltRecordEntity) criteria.uniqueResult();

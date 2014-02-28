@@ -16,10 +16,8 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:homebrewRecordKeeper-servlet.xml")
@@ -53,10 +51,10 @@ public class HopRecordDaoTest extends AbstractTransactionalJUnit4SpringContextTe
         HopRecordEntity returnedHopRecord = hopRecordDao.updateHopRecord(existingHopRecordEntity);
         HopRecordEntity modifiedHopRecord = (HopRecordEntity) criteria.uniqueResult();
 
-        assertEquals("lbs",returnedHopRecord.getUnit());
-        assertEquals("Willamette",returnedHopRecord.getType());
-        assertEquals("lbs",modifiedHopRecord.getUnit());
-        assertEquals("Willamette",modifiedHopRecord.getType());
+        assertThat(returnedHopRecord.getUnit(),equalTo("lbs"));
+        assertThat(returnedHopRecord.getType(),equalTo("Willamette"));
+        assertThat(modifiedHopRecord.getUnit(),equalTo("lbs"));
+        assertThat(modifiedHopRecord.getType(),equalTo("Willamette"));
     }
     @Test
     public void deleteHopRecordTest()
@@ -67,25 +65,32 @@ public class HopRecordDaoTest extends AbstractTransactionalJUnit4SpringContextTe
 
         List<HopRecordEntity> maltRecordEntityList = sessionFactory.getCurrentSession().createQuery("from MaltRecordEntity").list();
 
-        assertTrue(result);
-        assertFalse(maltRecordEntityList.contains(existingMaltRecord));
+        assertThat(result,is(true));
+        assertThat(maltRecordEntityList,not(hasItem(existingMaltRecord)));
     }
     @Test
     @SuppressWarnings("unchecked")
     public void getAllMaltRecordsTest()
     {
         List<HopRecordEntity> hopRecordEntityList = hopRecordDao.getAll();
-        assertEquals(2,hopRecordEntityList.size());
-        assertEquals("Perle",hopRecordEntityList.get(0).getType());
+        assertThat(hopRecordEntityList,hasSize(2));
+        assertThat(hopRecordEntityList.get(0).getType(),equalTo("Perle"));
     }
+    @Test
+    public void getMaltRecordByIdTest()
+    {
+        HopRecordEntity hopRecordEntity = hopRecordDao.getHopRecordById(1);
+        assertThat(hopRecordEntity.getId(),equalTo(1));
+    }
+    @SuppressWarnings("unchecked")
     private HopRecordEntity createHopRecord() {
         HopRecordEntity hopRecordEntity = new HopRecordEntity(1.5,"oz",60,"Cascade",5);
 
         HopRecordEntity createdHopRecord = hopRecordDao.addHopRecord(hopRecordEntity);
         List<HopRecordEntity> hopRecordEntityList = sessionFactory.getCurrentSession().createQuery("from HopRecordEntity").list();
 
-        assertNotNull(createdHopRecord.getId());
-        assertTrue(hopRecordEntityList.contains(hopRecordEntity));
+        assertThat(createdHopRecord.getId(),not(equalTo(0)));
+        assertThat(hopRecordEntityList,hasItem(hopRecordEntity));
 
         return hopRecordEntity;
     }

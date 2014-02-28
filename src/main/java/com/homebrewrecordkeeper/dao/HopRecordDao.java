@@ -10,6 +10,7 @@ public interface HopRecordDao {
     HopRecordEntity updateHopRecord(HopRecordEntity hopRecordEntity);
     boolean deleteHopRecord(HopRecordEntity hopRecordEntity);
     List<HopRecordEntity> getAll();
+    HopRecordEntity getHopRecordById(int id);
     SessionFactory getSessionFactory();
     void setSessionFactory(SessionFactory sessionFactory);
 }

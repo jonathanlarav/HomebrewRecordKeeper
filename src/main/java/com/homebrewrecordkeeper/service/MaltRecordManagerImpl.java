@@ -41,7 +41,7 @@ public class MaltRecordManagerImpl implements MaltRecordManager {
 
     @Override
     @Transactional
-    public MaltRecordEntity getMaltRecordById(String id) {
+    public MaltRecordEntity getMaltRecordById(int id) {
         return maltRecordDao.getMaltRecordById(id);
     }
 
