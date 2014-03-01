@@ -13,15 +13,6 @@ public class MaltRecordManagerImpl implements MaltRecordManager {
     @Autowired
     private MaltRecordDao maltRecordDao;
 
-    public MaltRecordManagerImpl(MaltRecordDao mrd)
-    {
-        maltRecordDao = mrd;
-    }
-    public MaltRecordManagerImpl()
-    {
-
-    }
-
     @Override
     @Transactional
     public MaltRecordEntity addMaltRecord(MaltRecordEntity maltRecordEntity) {
@@ -30,14 +21,30 @@ public class MaltRecordManagerImpl implements MaltRecordManager {
 
     @Override
     @Transactional
-    public boolean deleteMaltRecord(MaltRecordEntity maltRecordEntity) {
-        return maltRecordDao.deleteMaltRecord(maltRecordEntity);
+    public boolean deleteMaltRecord(int id) {
+        MaltRecordEntity maltRecordEntity = maltRecordDao.getMaltRecordById(id);
+        if(maltRecordEntity != null)
+            return maltRecordDao.deleteMaltRecord(maltRecordEntity);
+        else
+            return false;
     }
 
     @Override
     @Transactional
-    public MaltRecordEntity updateMaltRecord(MaltRecordEntity maltRecordEntity) {
-        return maltRecordDao.updateMaltRecord(maltRecordEntity);
+    public MaltRecordEntity updateMaltRecord(MaltRecordEntity maltRecordEntity, int id){
+
+        MaltRecordEntity maltRecordEntityToModify = maltRecordDao.getMaltRecordById(id);
+        if(maltRecordEntityToModify != null)
+        {
+            maltRecordEntityToModify.setUnit(maltRecordEntity.getUnit());
+            maltRecordEntityToModify.setName(maltRecordEntity.getName());
+            maltRecordEntityToModify.setType(maltRecordEntity.getType());
+            maltRecordEntityToModify.setAmount(maltRecordEntity.getAmount());
+
+            return maltRecordDao.updateMaltRecord(maltRecordEntityToModify);
+        }
+
+        return null;
     }
 
     @Override

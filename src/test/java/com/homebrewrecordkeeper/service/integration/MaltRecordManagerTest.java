@@ -3,10 +3,6 @@ package com.homebrewrecordkeeper.service.integration;
 import com.homebrewrecordkeeper.config.ApplicationConfig;
 import com.homebrewrecordkeeper.entity.MaltRecordEntity;
 import com.homebrewrecordkeeper.service.MaltRecordManager;
-import org.hibernate.Criteria;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.List;
 
@@ -22,18 +19,12 @@ import static org.hamcrest.Matchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfig.class)
+@WebAppConfiguration
 @TransactionConfiguration(transactionManager="transactionManager")
 public class MaltRecordManagerTest extends AbstractTransactionalJUnit4SpringContextTests {
     @Autowired
     private MaltRecordManager maltRecordManager;
 
-    private SessionFactory sessionFactory;
-
-    @Before
-    public void setupTest()
-    {
-        sessionFactory = maltRecordManager.getMaltRecordDao().getSessionFactory();
-    }
     @SuppressWarnings("unchecked")
     @Test
     public void addMaltRecordTest()
@@ -44,16 +35,13 @@ public class MaltRecordManagerTest extends AbstractTransactionalJUnit4SpringCont
     @Test
     public void updateMaltRecordTest()
     {
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(MaltRecordEntity.class);
-        criteria.add(Restrictions.eq("Id", 1));
-        MaltRecordEntity existingMaltRecord = (MaltRecordEntity) criteria.uniqueResult();
+        MaltRecordEntity existingMaltRecord = maltRecordManager.getMaltRecordById(1);
 
         existingMaltRecord.setName("New Malt");
         existingMaltRecord.setType("Grains");
 
-        MaltRecordEntity returnedMaltRecord = maltRecordManager.updateMaltRecord(existingMaltRecord);
-
-        MaltRecordEntity modifiedMaltRecord = (MaltRecordEntity) criteria.uniqueResult();
+        MaltRecordEntity returnedMaltRecord = maltRecordManager.updateMaltRecord(existingMaltRecord, existingMaltRecord.getId());
+        MaltRecordEntity modifiedMaltRecord = maltRecordManager.getMaltRecordById(1);
 
         assertThat(returnedMaltRecord.getName(),equalTo("New Malt"));
         assertThat(returnedMaltRecord.getType(),equalTo("Grains"));
@@ -67,9 +55,9 @@ public class MaltRecordManagerTest extends AbstractTransactionalJUnit4SpringCont
     {
         MaltRecordEntity existingMaltRecord = createMaltRecord();
 
-        boolean result = maltRecordManager.deleteMaltRecord(existingMaltRecord);
+        boolean result = maltRecordManager.deleteMaltRecord(existingMaltRecord.getId());
 
-        List<MaltRecordEntity> maltRecordEntityList = sessionFactory.getCurrentSession().createQuery("from MaltRecordEntity").list();
+        List<MaltRecordEntity> maltRecordEntityList = maltRecordManager.getAll();
 
         assertThat(result,equalTo(true));
         assertThat(maltRecordEntityList,not(hasItem(existingMaltRecord)));
@@ -87,14 +75,20 @@ public class MaltRecordManagerTest extends AbstractTransactionalJUnit4SpringCont
         MaltRecordEntity maltRecordEntity = maltRecordManager.getMaltRecordById(1);
         assertThat(maltRecordEntity.getId(),equalTo(1));
     }
+    @Test
+    public void getNotExistingMaltRecordByIdTest()
+    {
+        MaltRecordEntity maltRecordEntity = maltRecordManager.getMaltRecordById(20);
+        assertThat(maltRecordEntity,is(equalTo(null)));
+    }
     @SuppressWarnings("unchecked")
     private MaltRecordEntity createMaltRecord()
     {
         MaltRecordEntity newMaltRecordEntity = new MaltRecordEntity("test1",2,"test1","test1");
         MaltRecordEntity createdMaltRecord = maltRecordManager.addMaltRecord(newMaltRecordEntity);
-        List<MaltRecordEntity> maltRecordEntityList = sessionFactory.getCurrentSession().createQuery("from MaltRecordEntity").list();
+        List<MaltRecordEntity> maltRecordEntityList = maltRecordManager.getAll();
         assertThat(createdMaltRecord.getId(),not(equalTo(0)));
-        assertThat(maltRecordEntityList,hasItem(newMaltRecordEntity));
+        assertThat(maltRecordEntityList,hasItems(createdMaltRecord));
         return newMaltRecordEntity;
     }
 }

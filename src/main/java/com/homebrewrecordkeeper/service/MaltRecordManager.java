@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface MaltRecordManager {
     MaltRecordEntity addMaltRecord(MaltRecordEntity maltRecordEntity);
-    boolean deleteMaltRecord(MaltRecordEntity maltRecordEntity);
-    MaltRecordEntity updateMaltRecord(MaltRecordEntity maltRecordEntity);
+    boolean deleteMaltRecord(int id);
+    MaltRecordEntity updateMaltRecord(MaltRecordEntity maltRecordEntity, int id);
     MaltRecordEntity getMaltRecordById(int id);
     List<MaltRecordEntity> getAll();
     void setMaltRecordDao(MaltRecordDao maltRecordDao);
