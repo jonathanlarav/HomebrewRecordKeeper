@@ -10,30 +10,31 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequestMapping(value = "/api/maltRecords")
 public class MaltRecordController {
     @Autowired
     private MaltRecordService maltRecordService;
 
-    @RequestMapping(value = "/maltRecords", method = RequestMethod.GET)
-    public @ResponseBody List<MaltRecordEntity> maltRecords(ModelMap map) {
+    @RequestMapping(method = RequestMethod.GET)
+    public @ResponseBody List<MaltRecordEntity> maltRecords() {
         return maltRecordService.getAll();
     }
-    @RequestMapping(value = "/maltRecords/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody MaltRecordEntity getMaltRecordById(@PathVariable("id") int id)
     {
         return maltRecordService.getMaltRecordById(id);
     }
-    @RequestMapping(value = "/maltRecords", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody MaltRecordEntity createMaltRecord(@RequestBody MaltRecordEntity maltRecordEntity)
     {
         return maltRecordService.addMaltRecord(maltRecordEntity);
     }
-    @RequestMapping(value = "/maltRecords/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public @ResponseBody boolean deleteMaltRecord(@PathVariable("id") int id)
     {
         return maltRecordService.deleteMaltRecord(id);
     }
-    @RequestMapping(value = "/maltRecords/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public @ResponseBody MaltRecordEntity updateMaltRecord(@RequestBody MaltRecordEntity maltRecordEntity, @PathVariable("id") int id)
     {
         return maltRecordService.updateMaltRecord(maltRecordEntity, id);

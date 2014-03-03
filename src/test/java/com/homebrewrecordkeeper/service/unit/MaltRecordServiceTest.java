@@ -45,13 +45,13 @@ public class MaltRecordServiceTest {
         maltRecordEntity.setId(1);
 
         MaltRecordDao maltRecordDao = createNiceMock(MaltRecordDao.class);
-        expect(maltRecordDao.getMaltRecordById(1)).andReturn(maltRecordEntity);
+        expect(maltRecordDao.getMaltRecordById(maltRecordEntity.getId())).andReturn(maltRecordEntity);
         expect(maltRecordDao.updateMaltRecord(maltRecordEntity)).andReturn(maltRecordEntityChanged);
         replay(maltRecordDao);
 
         MaltRecordService maltRecordService = new MaltRecordServiceImpl();
         maltRecordService.setMaltRecordDao(maltRecordDao);
-        MaltRecordEntity testedMaltRecordEntity = maltRecordService.updateMaltRecord(maltRecordEntity, maltRecordEntity.getId());
+        MaltRecordEntity testedMaltRecordEntity = maltRecordService.updateMaltRecord(maltRecordEntityChanged, maltRecordEntity.getId());
 
         assertThat(testedMaltRecordEntity.getUnit(), equalTo("test4"));
         assertThat(testedMaltRecordEntity.getType(), equalTo("test5"));
