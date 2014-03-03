@@ -5,7 +5,7 @@ import com.homebrewrecordkeeper.entity.MaltRecordEntity;
 
 import java.util.List;
 
-public interface MaltRecordManager {
+public interface MaltRecordService {
     MaltRecordEntity addMaltRecord(MaltRecordEntity maltRecordEntity);
     boolean deleteMaltRecord(int id);
     MaltRecordEntity updateMaltRecord(MaltRecordEntity maltRecordEntity, int id);

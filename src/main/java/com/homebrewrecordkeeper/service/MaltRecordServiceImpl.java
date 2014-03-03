@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class MaltRecordManagerImpl implements MaltRecordManager {
+public class MaltRecordServiceImpl implements MaltRecordService {
     @Autowired
     private MaltRecordDao maltRecordDao;
 

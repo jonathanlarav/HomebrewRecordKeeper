@@ -2,7 +2,7 @@ package com.homebrewrecordkeeper.service.integration;
 
 import com.homebrewrecordkeeper.config.ApplicationConfig;
 import com.homebrewrecordkeeper.entity.MaltRecordEntity;
-import com.homebrewrecordkeeper.service.MaltRecordManager;
+import com.homebrewrecordkeeper.service.MaltRecordService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +21,9 @@ import static org.hamcrest.Matchers.*;
 @ContextConfiguration(classes = ApplicationConfig.class)
 @WebAppConfiguration
 @TransactionConfiguration(transactionManager="transactionManager")
-public class MaltRecordManagerTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class MaltRecordServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
     @Autowired
-    private MaltRecordManager maltRecordManager;
+    private MaltRecordService maltRecordService;
 
     @SuppressWarnings("unchecked")
     @Test
@@ -35,13 +35,13 @@ public class MaltRecordManagerTest extends AbstractTransactionalJUnit4SpringCont
     @Test
     public void updateMaltRecordTest()
     {
-        MaltRecordEntity existingMaltRecord = maltRecordManager.getMaltRecordById(1);
+        MaltRecordEntity existingMaltRecord = maltRecordService.getMaltRecordById(1);
 
         existingMaltRecord.setName("New Malt");
         existingMaltRecord.setType("Grains");
 
-        MaltRecordEntity returnedMaltRecord = maltRecordManager.updateMaltRecord(existingMaltRecord, existingMaltRecord.getId());
-        MaltRecordEntity modifiedMaltRecord = maltRecordManager.getMaltRecordById(1);
+        MaltRecordEntity returnedMaltRecord = maltRecordService.updateMaltRecord(existingMaltRecord, existingMaltRecord.getId());
+        MaltRecordEntity modifiedMaltRecord = maltRecordService.getMaltRecordById(1);
 
         assertThat(returnedMaltRecord.getName(),equalTo("New Malt"));
         assertThat(returnedMaltRecord.getType(),equalTo("Grains"));
@@ -55,9 +55,9 @@ public class MaltRecordManagerTest extends AbstractTransactionalJUnit4SpringCont
     {
         MaltRecordEntity existingMaltRecord = createMaltRecord();
 
-        boolean result = maltRecordManager.deleteMaltRecord(existingMaltRecord.getId());
+        boolean result = maltRecordService.deleteMaltRecord(existingMaltRecord.getId());
 
-        List<MaltRecordEntity> maltRecordEntityList = maltRecordManager.getAll();
+        List<MaltRecordEntity> maltRecordEntityList = maltRecordService.getAll();
 
         assertThat(result,equalTo(true));
         assertThat(maltRecordEntityList,not(hasItem(existingMaltRecord)));
@@ -65,28 +65,28 @@ public class MaltRecordManagerTest extends AbstractTransactionalJUnit4SpringCont
     @Test
     public void getAllMaltRecordsTest()
     {
-        List<MaltRecordEntity> maltRecordEntityList = maltRecordManager.getAll();
+        List<MaltRecordEntity> maltRecordEntityList = maltRecordService.getAll();
         assertThat(maltRecordEntityList.size(),equalTo(2));
         assertThat(maltRecordEntityList.get(0).getName(),equalTo("Muntons amber malt extract"));
     }
     @Test
     public void getMaltRecordByIdTest()
     {
-        MaltRecordEntity maltRecordEntity = maltRecordManager.getMaltRecordById(1);
+        MaltRecordEntity maltRecordEntity = maltRecordService.getMaltRecordById(1);
         assertThat(maltRecordEntity.getId(),equalTo(1));
     }
     @Test
     public void getNotExistingMaltRecordByIdTest()
     {
-        MaltRecordEntity maltRecordEntity = maltRecordManager.getMaltRecordById(20);
+        MaltRecordEntity maltRecordEntity = maltRecordService.getMaltRecordById(20);
         assertThat(maltRecordEntity,is(equalTo(null)));
     }
     @SuppressWarnings("unchecked")
     private MaltRecordEntity createMaltRecord()
     {
         MaltRecordEntity newMaltRecordEntity = new MaltRecordEntity("test1",2,"test1","test1");
-        MaltRecordEntity createdMaltRecord = maltRecordManager.addMaltRecord(newMaltRecordEntity);
-        List<MaltRecordEntity> maltRecordEntityList = maltRecordManager.getAll();
+        MaltRecordEntity createdMaltRecord = maltRecordService.addMaltRecord(newMaltRecordEntity);
+        List<MaltRecordEntity> maltRecordEntityList = maltRecordService.getAll();
         assertThat(createdMaltRecord.getId(),not(equalTo(0)));
         assertThat(maltRecordEntityList,hasItems(createdMaltRecord));
         return newMaltRecordEntity;
