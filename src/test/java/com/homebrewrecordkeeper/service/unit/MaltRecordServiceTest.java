@@ -2,8 +2,8 @@ package com.homebrewrecordkeeper.service.unit;
 
 import com.homebrewrecordkeeper.dao.MaltRecordDao;
 import com.homebrewrecordkeeper.entity.MaltRecordEntity;
-import com.homebrewrecordkeeper.service.MaltRecordManager;
-import com.homebrewrecordkeeper.service.MaltRecordManagerImpl;
+import com.homebrewrecordkeeper.service.MaltRecordService;
+import com.homebrewrecordkeeper.service.MaltRecordServiceImpl;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
 
-public class MaltRecordManagerTest {
+public class MaltRecordServiceTest {
     @Test
     public void addMaltRecordTest()
     {
@@ -27,9 +27,9 @@ public class MaltRecordManagerTest {
         expect(maltRecordDao.addMaltRecord(maltRecordEntity)).andReturn(createdMaltRecordEntity);
         replay(maltRecordDao);
 
-        MaltRecordManager maltRecordManager = new MaltRecordManagerImpl();
-        maltRecordManager.setMaltRecordDao(maltRecordDao);
-        MaltRecordEntity testedMaltRecordEntity = maltRecordManager.addMaltRecord(maltRecordEntity);
+        MaltRecordService maltRecordService = new MaltRecordServiceImpl();
+        maltRecordService.setMaltRecordDao(maltRecordDao);
+        MaltRecordEntity testedMaltRecordEntity = maltRecordService.addMaltRecord(maltRecordEntity);
 
         assertThat(testedMaltRecordEntity.getId(),not(equalTo(0)));
         assertThat(testedMaltRecordEntity.getUnit(),equalTo("test2"));
@@ -49,9 +49,9 @@ public class MaltRecordManagerTest {
         expect(maltRecordDao.updateMaltRecord(maltRecordEntity)).andReturn(maltRecordEntityChanged);
         replay(maltRecordDao);
 
-        MaltRecordManager maltRecordManager = new MaltRecordManagerImpl();
-        maltRecordManager.setMaltRecordDao(maltRecordDao);
-        MaltRecordEntity testedMaltRecordEntity = maltRecordManager.updateMaltRecord(maltRecordEntity, maltRecordEntity.getId());
+        MaltRecordService maltRecordService = new MaltRecordServiceImpl();
+        maltRecordService.setMaltRecordDao(maltRecordDao);
+        MaltRecordEntity testedMaltRecordEntity = maltRecordService.updateMaltRecord(maltRecordEntity, maltRecordEntity.getId());
 
         assertThat(testedMaltRecordEntity.getUnit(), equalTo("test4"));
         assertThat(testedMaltRecordEntity.getType(), equalTo("test5"));
@@ -67,9 +67,9 @@ public class MaltRecordManagerTest {
         expect(maltRecordDao.deleteMaltRecord(maltRecordEntity)).andReturn(true);
         replay(maltRecordDao);
 
-        MaltRecordManager maltRecordManager = new MaltRecordManagerImpl();
-        maltRecordManager.setMaltRecordDao(maltRecordDao);
-        boolean result = maltRecordManager.deleteMaltRecord(maltRecordEntity.getId());
+        MaltRecordService maltRecordService = new MaltRecordServiceImpl();
+        maltRecordService.setMaltRecordDao(maltRecordDao);
+        boolean result = maltRecordService.deleteMaltRecord(maltRecordEntity.getId());
 
         assertThat(result,equalTo(true));
     }
@@ -82,9 +82,9 @@ public class MaltRecordManagerTest {
         expect(maltRecordDao.getAll()).andReturn(new ArrayList<>(Arrays.asList(test1,test2)));
         replay(maltRecordDao);
 
-        MaltRecordManager maltRecordManager = new MaltRecordManagerImpl();
-        maltRecordManager.setMaltRecordDao(maltRecordDao);
-        List<MaltRecordEntity> maltRecordEntityList = maltRecordManager.getAll();
+        MaltRecordService maltRecordService = new MaltRecordServiceImpl();
+        maltRecordService.setMaltRecordDao(maltRecordDao);
+        List<MaltRecordEntity> maltRecordEntityList = maltRecordService.getAll();
 
         assertThat(maltRecordEntityList.get(0),equalTo(test1));
         assertThat(maltRecordEntityList.get(1),equalTo(test2));
@@ -98,9 +98,9 @@ public class MaltRecordManagerTest {
         expect(maltRecordDao.getMaltRecordById(1)).andReturn(test1);
         replay(maltRecordDao);
 
-        MaltRecordManager maltRecordManager = new MaltRecordManagerImpl();
-        maltRecordManager.setMaltRecordDao(maltRecordDao);
-        MaltRecordEntity maltRecordEntity = maltRecordManager.getMaltRecordById(1);
+        MaltRecordService maltRecordService = new MaltRecordServiceImpl();
+        maltRecordService.setMaltRecordDao(maltRecordDao);
+        MaltRecordEntity maltRecordEntity = maltRecordService.getMaltRecordById(1);
 
         assertThat(maltRecordEntity.getId(),equalTo(1));
         assertThat(maltRecordEntity.getName(),equalTo(test1.getName()));
@@ -114,9 +114,9 @@ public class MaltRecordManagerTest {
         expect(maltRecordDao.getMaltRecordById(1)).andReturn(null);
         replay(maltRecordDao);
 
-        MaltRecordManager maltRecordManager = new MaltRecordManagerImpl();
-        maltRecordManager.setMaltRecordDao(maltRecordDao);
-        MaltRecordEntity maltRecordEntity = maltRecordManager.getMaltRecordById(1);
+        MaltRecordService maltRecordService = new MaltRecordServiceImpl();
+        maltRecordService.setMaltRecordDao(maltRecordDao);
+        MaltRecordEntity maltRecordEntity = maltRecordService.getMaltRecordById(1);
 
         assertThat(maltRecordEntity,equalTo(null));
     }
@@ -131,9 +131,9 @@ public class MaltRecordManagerTest {
         expect(maltRecordDao.updateMaltRecord(maltRecordEntity)).andReturn(maltRecordEntity);
         replay(maltRecordDao);
 
-        MaltRecordManager maltRecordManager = new MaltRecordManagerImpl();
-        maltRecordManager.setMaltRecordDao(maltRecordDao);
-        MaltRecordEntity testedMaltRecordEntity = maltRecordManager.updateMaltRecord(maltRecordEntity, maltRecordEntity.getId());
+        MaltRecordService maltRecordService = new MaltRecordServiceImpl();
+        maltRecordService.setMaltRecordDao(maltRecordDao);
+        MaltRecordEntity testedMaltRecordEntity = maltRecordService.updateMaltRecord(maltRecordEntity, maltRecordEntity.getId());
 
         assertThat(testedMaltRecordEntity,equalTo(null));
     }
@@ -148,9 +148,9 @@ public class MaltRecordManagerTest {
         expect(maltRecordDao.deleteMaltRecord(maltRecordEntity)).andReturn(false);
         replay(maltRecordDao);
 
-        MaltRecordManager maltRecordManager = new MaltRecordManagerImpl();
-        maltRecordManager.setMaltRecordDao(maltRecordDao);
-        boolean result = maltRecordManager.deleteMaltRecord(maltRecordEntity.getId());
+        MaltRecordService maltRecordService = new MaltRecordServiceImpl();
+        maltRecordService.setMaltRecordDao(maltRecordDao);
+        boolean result = maltRecordService.deleteMaltRecord(maltRecordEntity.getId());
 
         assertThat(result,equalTo(false));
     }
