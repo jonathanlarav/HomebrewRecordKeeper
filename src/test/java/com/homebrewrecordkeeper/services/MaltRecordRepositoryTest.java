@@ -82,7 +82,7 @@ public class MaltRecordRepositoryTest extends AbstractTransactionalJUnit4SpringC
         MaltRecordEntity maltRecordEntity = (MaltRecordEntity)sessionFactory.getCurrentSession()
             .createQuery("from MaltRecordEntity where id = ?").setParameter(0,25).uniqueResult();
 
-
+    //test
         assertThat(maltRecordEntity,IsNull.nullValue());
     }
 
