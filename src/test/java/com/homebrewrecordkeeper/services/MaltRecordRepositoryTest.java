@@ -73,6 +73,20 @@ public class MaltRecordRepositoryTest extends AbstractTransactionalJUnit4SpringC
     }
 
     @Test
+    public void deleteNonExistentMaltRecordTest()
+    {
+        boolean result = _maltRecordRepository.deleteMaltRecord(25);
+
+        assertThat(result, is(false));
+
+        MaltRecordEntity maltRecordEntity = (MaltRecordEntity)sessionFactory.getCurrentSession()
+            .createQuery("from MaltRecordEntity where id = ?").setParameter(0,25).uniqueResult();
+
+
+        assertThat(maltRecordEntity,IsNull.nullValue());
+    }
+
+    @Test
     public void getAllMaltRecordTest()
     {
         MaltRecordEntity newMaltRecordEntity = new MaltRecordEntity("test1",2,"test1","test1");
