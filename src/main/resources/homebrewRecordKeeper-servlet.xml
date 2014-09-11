@@ -39,7 +39,7 @@
         <property name="packagesToScan">
             <list>
                 <value>com.homebrewrecordkeeper.entity</value>
-                <value>com.homebrewrecordkeeper.integration</value>
+                <value>com.homebrewrecordkeeper.services</value>
             </list>
         </property>
         <property name="dataSource" ref="dataSource"></property>
@@ -54,10 +54,10 @@
         </property>
     </bean>
 
-    <bean id="maltRecordDao" class="com.homebrewrecordkeeper.dao.MaltRecordDaoImpl">
+    <bean id="maltRecordRepository" class="com.homebrewrecordkeeper.repositories.MaltRecordRepositoryImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-    <bean id="maltRecordManager" class="com.homebrewrecordkeeper.integration.MaltRecordManagerImpl"></bean>
+    <bean id="maltRecordService" class="com.homebrewrecordkeeper.services.MaltRecordServiceImpl"></bean>
 
     <tx:annotation-driven />
     <bean id="transactionManager"

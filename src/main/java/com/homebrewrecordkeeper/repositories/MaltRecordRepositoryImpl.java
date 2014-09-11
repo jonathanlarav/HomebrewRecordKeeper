@@ -1,4 +1,4 @@
-package com.homebrewrecordkeeper.dao;
+package com.homebrewrecordkeeper.repositories;
 
 import com.homebrewrecordkeeper.entity.MaltRecordEntity;
 import org.hibernate.Criteria;
@@ -11,37 +11,47 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.List;
 
 @Repository
-public class MaltRecordDaoImpl implements MaltRecordDao {
+public class MaltRecordRepositoryImpl implements MaltRecordRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
 
-    public MaltRecordDaoImpl(SessionFactory sf)
+    public MaltRecordRepositoryImpl(SessionFactory sf)
     {
         sessionFactory = sf;
     }
-    public MaltRecordDaoImpl()
+    public MaltRecordRepositoryImpl()
     {
 
     }
 
     @Override
-    public int addMaltRecord(MaltRecordEntity maltRecordEntity) {
-        return (Integer)sessionFactory.getCurrentSession().save(maltRecordEntity);
+    public MaltRecordEntity addMaltRecord(MaltRecordEntity maltRecordEntity) {
+        Integer id = (Integer) sessionFactory.getCurrentSession().save(maltRecordEntity);
+        maltRecordEntity.setId(id);
+        return maltRecordEntity;
     }
 
     @Override
-    public void deleteMaltRecord(String id) {
-        sessionFactory.getCurrentSession().delete(getMaltRecordById(id));
+    public boolean deleteMaltRecord(int id) {
+        try
+        {
+            sessionFactory.getCurrentSession().delete(getMaltRecordById(id));
+            return true;
+        }catch (Exception ex)
+        {
+            return false;
+        }
     }
 
     @Override
-    public void updateMaltRecord(String id, MaltRecordEntity maltRecordEntity) {
-        throw new NotImplementedException();
+    public MaltRecordEntity updateMaltRecord(MaltRecordEntity maltRecordEntity) {
+        sessionFactory.getCurrentSession().saveOrUpdate(maltRecordEntity);
+        return maltRecordEntity;
     }
 
     @Override
-    public MaltRecordEntity getMaltRecordById(String id) {
+    public MaltRecordEntity getMaltRecordById(int id) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(MaltRecordEntity.class);
         criteria.add(Restrictions.eq("Id",id));
         return (MaltRecordEntity)criteria.uniqueResult();
