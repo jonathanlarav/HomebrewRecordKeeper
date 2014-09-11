@@ -27,8 +27,8 @@ public class MaltRecordRepositoryImpl implements MaltRecordRepository {
 
     @Override
     public MaltRecordEntity addMaltRecord(MaltRecordEntity maltRecordEntity) {
-        Integer id = (Integer) sessionFactory.getCurrentSession().save(maltRecordEntity);
-        maltRecordEntity.setId(id);
+        sessionFactory.getCurrentSession().save(maltRecordEntity);
+        //maltRecordEntity.setId(id);
         return maltRecordEntity;
     }
 
