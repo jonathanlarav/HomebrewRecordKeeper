@@ -1,16 +1,16 @@
 package com.homebrewrecordkeeper.dao;
 
 import com.homebrewrecordkeeper.entity.MaltRecordEntity;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
 
 public interface MaltRecordDao {
-    int addMaltRecord(MaltRecordEntity maltRecordEntity);
-    void deleteMaltRecord(String id);
-    void updateMaltRecord(String id, MaltRecordEntity maltRecordEntity);
-    MaltRecordEntity getMaltRecordById(String id);
+    MaltRecordEntity addMaltRecord(MaltRecordEntity maltRecordEntity);
+    boolean deleteMaltRecord(MaltRecordEntity maltRecordEntity);
+    MaltRecordEntity updateMaltRecord(MaltRecordEntity maltRecordEntity);
+    MaltRecordEntity getMaltRecordById(int id);
     List<MaltRecordEntity> getAll();
+    void setSessionFactory(SessionFactory sessionFactory);
     SessionFactory getSessionFactory();
 }

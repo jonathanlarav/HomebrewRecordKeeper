@@ -1,2 +1,9 @@
-.idea/
-target/
+# Idea files #
+.idea
+*.iml
+*.ipr
+*.iws
+*.ids
+
+# Java files #
+target

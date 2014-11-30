@@ -15,36 +15,35 @@ public class MaltRecordDaoImpl implements MaltRecordDao {
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    public MaltRecordDaoImpl(SessionFactory sf)
-    {
-        sessionFactory = sf;
-    }
-    public MaltRecordDaoImpl()
-    {
-
+ 
+    @Override
+    public MaltRecordEntity addMaltRecord(MaltRecordEntity maltRecordEntity) {
+        sessionFactory.getCurrentSession().save(maltRecordEntity);
+        return maltRecordEntity;
     }
 
     @Override
-    public int addMaltRecord(MaltRecordEntity maltRecordEntity) {
-        return (Integer)sessionFactory.getCurrentSession().save(maltRecordEntity);
+    public boolean deleteMaltRecord(MaltRecordEntity maltRecordEntity) {
+        try {
+            sessionFactory.getCurrentSession().delete(maltRecordEntity);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
-    public void deleteMaltRecord(String id) {
-        sessionFactory.getCurrentSession().delete(getMaltRecordById(id));
+    public MaltRecordEntity updateMaltRecord(MaltRecordEntity maltRecordEntity) {
+        sessionFactory.getCurrentSession().update(maltRecordEntity);
+        return maltRecordEntity;
     }
 
     @Override
-    public void updateMaltRecord(String id, MaltRecordEntity maltRecordEntity) {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public MaltRecordEntity getMaltRecordById(String id) {
+    @SuppressWarnings("unchecked")
+    public MaltRecordEntity getMaltRecordById(int id) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(MaltRecordEntity.class);
-        criteria.add(Restrictions.eq("Id",id));
-        return (MaltRecordEntity)criteria.uniqueResult();
+        criteria.add(Restrictions.eq("Id", id));
+        return (MaltRecordEntity) criteria.uniqueResult();
     }
 
     @Override
