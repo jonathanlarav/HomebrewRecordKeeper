@@ -5,5 +5,5 @@
 *.iws
 *.ids
 
-# Java files #
-target/
+# generated Java files #
+target
