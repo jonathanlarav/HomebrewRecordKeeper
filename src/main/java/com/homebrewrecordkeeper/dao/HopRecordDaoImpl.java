@@ -11,6 +11,7 @@ import java.util.List;
 
 @Repository
 public class HopRecordDaoImpl implements HopRecordDao {
+
     @Autowired
     private SessionFactory sessionFactory;
 

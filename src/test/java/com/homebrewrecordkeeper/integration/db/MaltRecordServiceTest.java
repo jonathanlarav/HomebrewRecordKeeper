@@ -1,27 +1,18 @@
-package com.homebrewrecordkeeper.service.integration;
+package com.homebrewrecordkeeper.integration.db;
 
-import com.homebrewrecordkeeper.config.ApplicationConfig;
+import com.homebrewrecordkeeper.config.TestConfigurator;
 import com.homebrewrecordkeeper.entity.MaltRecordEntity;
 import com.homebrewrecordkeeper.service.MaltRecordService;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ApplicationConfig.class)
-@WebAppConfiguration
-@TransactionConfiguration(transactionManager="transactionManager")
-public class MaltRecordServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class MaltRecordServiceTest extends TestConfigurator.DbUnitBaseIntegrationTest {
+
     @Autowired
     private MaltRecordService maltRecordService;
 

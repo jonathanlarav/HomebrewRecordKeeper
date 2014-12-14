@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <Hoprecord id="1" amount="12.0" unit="Kg" timeInMinutes="32" type="Perle" alphaAcid="57.5"/>
+    <Hoprecord id="2" amount="18.3" unit="Kg" timeInMinutes="24" type="Type 2" alphaAcid="71.9"/>
+
+    <Maltrecord id="1" name="Muntons amber malt extract" amount="36" unit="Kg" type="TypeOne"/>
+    <Maltrecord id="2" name="record 2" amount="48" unit="Kg" type="TypeTwo"/>
+</dataset>

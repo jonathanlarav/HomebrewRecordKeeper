@@ -1,4 +1,4 @@
-package com.homebrewrecordkeeper.service.unit;
+package com.homebrewrecordkeeper.unit.service;
 
 import com.homebrewrecordkeeper.dao.HopRecordDao;
 import com.homebrewrecordkeeper.entity.HopRecordEntity;

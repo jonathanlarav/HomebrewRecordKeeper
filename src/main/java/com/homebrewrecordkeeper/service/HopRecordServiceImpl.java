@@ -9,6 +9,7 @@ import java.util.List;
 
 @Service
 public class HopRecordServiceImpl implements HopRecordService {
+
     @Autowired
     private HopRecordDao hopRecordDao;
     @Override
